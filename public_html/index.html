@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NodeJS Server Page</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+
+    <div>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username"/>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password"/>
+        </div>
+        <div>
+            <button onclick="doLogin()">Login</button>
+            <button onclick="logoutPage()">Logout Page</button>
+        </div>
+    </div>
+
+    <div id="ajax-response"></div>
+
+    <a href="/menu">Main menu</a>
+    <a href="/info">Settings page</a>
+
+</body>
+    <script>
+        function logoutPage(){
+            window.location.href = "/out";
+        }
+        function doLogin(){
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","/login");
+            xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4  && xhr.status === 200){
+                    console.log(xhr.responseText);
+                    document.getElementById("ajax-response").innerHTML = xhr.responseText;
+                }
+            }
+            xhr.send("username="+username+"&password="+password);
+        }
+    </script>
+</html>
